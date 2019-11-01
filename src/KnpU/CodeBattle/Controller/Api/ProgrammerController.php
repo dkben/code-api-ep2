@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use KnpU\CodeBattle\Model\Programmer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProgrammerController extends BaseController
 {
@@ -35,6 +36,10 @@ class ProgrammerController extends BaseController
 
     public function newAction(Request $request)
     {
+        if (!$this->getLoggedInUser()) {
+            throw new AccessDeniedException();
+        }
+
         $programmer = new Programmer();
         $this->handleRequest($request, $programmer);
 
@@ -45,7 +50,6 @@ class ProgrammerController extends BaseController
         $this->save($programmer);
 
         $response = $this->createApiResponse($programmer, 201);
-
         $programmerUrl = $this->generateUrl(
             'api_programmers_show',
             ['nickname' => $programmer->nickname]
