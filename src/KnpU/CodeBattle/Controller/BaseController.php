@@ -3,6 +3,8 @@
 namespace KnpU\CodeBattle\Controller;
 
 use JMS\Serializer\SerializationContext;
+use KnpU\CodeBattle\Api\ApiProblem;
+use KnpU\CodeBattle\Api\ApiProblemException;
 use KnpU\CodeBattle\Model\Programmer;
 use KnpU\CodeBattle\Model\User;
 use KnpU\CodeBattle\Repository\UserRepository;
@@ -10,6 +12,7 @@ use KnpU\CodeBattle\Application;
 use Silex\Application as SilexApplication;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -263,6 +266,25 @@ abstract class BaseController implements ControllerProviderInterface
         if ($programmer->userId != $this->getLoggedInUser()->id) {
             throw new AccessDeniedException();
         }
+    }
+
+    protected function decodeRequestBodyIntoParameters(Request $request)
+    {
+        if (!$request->getContent()) {
+            $data = array();
+        } else {
+            $data = json_decode($request->getContent(), true);
+
+            if ($data === null) {
+                $problem = new ApiProblem(
+                    400,
+                    ApiProblem::TYPE_INVALID_REQUEST_BODY_FORMAT
+                );
+                throw new ApiProblemException($problem);
+            }
+        }
+
+        return new ParameterBag($data);
     }
 
 }
