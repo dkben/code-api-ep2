@@ -3,6 +3,7 @@
 namespace KnpU\CodeBattle;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Hateoas\HateoasBuilder;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use KnpU\CodeBattle\Api\ApiProblem;
@@ -215,11 +216,12 @@ class Application extends SilexApplication
         });
 
         $this['serializer'] = $this->share(function () use ($app) {
-            return SerializerBuilder::create()
+            $serializerBuilder = SerializerBuilder::create()
                 ->setCacheDir($app['root_dir'] . '/cache/serializer')
                 ->setDebug($app['debug'])
-                ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
-                ->build();
+                ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy());
+
+            return HateoasBuilder::create($serializerBuilder)->build();
         });
 
         $this['api.response_factory'] = $this->share(function() {

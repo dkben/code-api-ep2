@@ -32,3 +32,4 @@ Feature:
     And the "notes" property should exist
     And the "didProgrammerWin" property should exist
     And the "programmerUri" property should equal "/api/programmers/Fred"
+    And print last response
