@@ -6,23 +6,22 @@ use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
- *
- * @Serializer\ExclusionPolicy("all")
  * @Hateoas\Relation(
- *     "programmer",
- *     href = @Hateoas\Route(
- *          "api_programmers_show",
- *          parameters={"nickname" = "expr(object.programmer.nickname)"}
- *     ),
- *     embedded="expr(object.programmer)"
- * )
- * @Hateoas\Relation(
- *     "self",
- *     href = @Hateoas\Route(
+ *      "self",
+ *      href = @Hateoas\Route(
  *          "api_battle_show",
- *          parameters={"nickname" = "expr(object.id)"}
- *     )
+ *          parameters = { "id" = "expr(object.id)" }
+ *      )
  * )
+ * @Hateoas\Relation(
+ *      "programmer",
+ *      href = @Hateoas\Route(
+ *          "api_programmers_show",
+ *          parameters = { "nickname" = "expr(object.programmer.nickname)" }
+ *      ),
+ *      embedded = "expr(object.programmer)"
+ * )
+ * @Serializer\ExclusionPolicy("all")
  */
 class Battle
 {

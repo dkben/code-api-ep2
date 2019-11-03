@@ -35,7 +35,7 @@ class ProgrammerController extends BaseController
         $controllers->delete('/api/programmers/{nickname}', array($this, 'deleteAction'));
 
         $controllers->get('/api/programmers/{nickname}/battles', array($this, 'listBattlesAction'))
-            ->bind('api_programmers_battle_list');
+            ->bind('api_programmers_battles_list');
     }
 
     public function newAction(Request $request)
