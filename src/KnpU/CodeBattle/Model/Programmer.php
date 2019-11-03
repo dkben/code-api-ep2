@@ -17,6 +17,13 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          parameters={"nickname" = "expr(object.nickname)"}
  *     )
  * )
+ * @Hateoas\Relation(
+ *      "battles",
+ *      href = @Hateoas\Route(
+ *          "api_programmers_battles_list",
+ *          parameters = { "id" = "expr(object.nickname)" }
+ *      )
+ * )
  */
 class Programmer
 {

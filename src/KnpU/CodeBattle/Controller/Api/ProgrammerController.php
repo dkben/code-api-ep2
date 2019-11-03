@@ -33,6 +33,9 @@ class ProgrammerController extends BaseController
             ->method('PATCH');
 
         $controllers->delete('/api/programmers/{nickname}', array($this, 'deleteAction'));
+
+        $controllers->get('/api/programmers/{nickname}/battles', array($this, 'listBattlesAction'))
+            ->bind('api_programmers_battle_list');
     }
 
     public function newAction(Request $request)
@@ -68,6 +71,23 @@ class ProgrammerController extends BaseController
 
         $response = $this->createApiResponse($programmer, 200);
 
+        return $response;
+    }
+
+    public function listBattlesAction($nickname)
+    {
+        $programmer = $this->getProgrammerRepository()->findOneByNickname($nickname);
+        if (!$programmer) {
+            $this->throw404('Oh no! This programmer has deserted! We\'ll send a search party!');
+        }
+        $battles = $this->getBattleRepository()
+            ->findAllBy(array('programmerId' => $programmer->id));
+        $collection = new CollectionRepresentation(
+            $battles,
+            'battles',
+            'battles'
+        );
+        $response = $this->createApiResponse($collection);
         return $response;
     }
 
