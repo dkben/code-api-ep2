@@ -5,3 +5,4 @@
 /logs/*
 /.sass-cache
 /cache
+/web/browser
