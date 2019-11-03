@@ -33,3 +33,4 @@ Feature:
     And the "didProgrammerWin" property should exist
 #    And the "_links.programmer.href" property should equal "/api/programmers/Fred"
     And the link "programmer" should exist and its value should be "/api/programmers/Fred"
+    And the "Content-Type" header should be "application/hal+json"
