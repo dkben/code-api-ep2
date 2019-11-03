@@ -13,7 +13,8 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     href = @Hateoas\Route(
  *          "api_programmers_show",
  *          parameters={"nickname" = "expr(object.programmer.nickname)"}
- *     )
+ *     ),
+ *     embedded="expr(object.programmer)"
  * )
  */
 class Battle
