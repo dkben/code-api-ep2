@@ -78,8 +78,8 @@ Feature: Programmer
       """
     And the "nickname" property should equal "UnitTester"
     And the "userId" property should not exist
-    And the "_links.self.href" property should equal "/api/programmers/UnitTester"
-    And print last response
+    # And the "_links.self.href" property should equal "/api/programmers/UnitTester"
+    And the link "self" should exist and its value should be "/api/programmers/UnitTester"
 
   Scenario: GET a collection of programmers
     Given the following programmers exist:

@@ -3,10 +3,18 @@
 namespace KnpU\CodeBattle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  *
  * @Serializer\ExclusionPolicy("all")
+ * @Hateoas\Relation(
+ *     "programmer",
+ *     href = @Hateoas\Route(
+ *          "api_programmers_show",
+ *          parameters={"nickname" = "expr(object.programmer.nickname)"}
+ *     )
+ * )
  */
 class Battle
 {
@@ -39,12 +47,4 @@ class Battle
      * @Serializer\Expose()
      */
     public $notes;
-
-    /**
-     * @Serializer\VirtualProperty()
-     */
-    public function getProgrammerUri()
-    {
-        return '/api/programmers/'.$this->programmer->nickname;
-    }
 }
