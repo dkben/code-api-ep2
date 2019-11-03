@@ -4,6 +4,7 @@ namespace KnpU\CodeBattle;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Hateoas\HateoasBuilder;
+use Hateoas\UrlGenerator\SymfonyUrlGenerator;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use KnpU\CodeBattle\Api\ApiProblem;
@@ -221,7 +222,9 @@ class Application extends SilexApplication
                 ->setDebug($app['debug'])
                 ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy());
 
-            return HateoasBuilder::create($serializerBuilder)->build();
+            return HateoasBuilder::create($serializerBuilder)
+                ->setUrlGenerator(null, new SymfonyUrlGenerator($app['url_generator']))
+                ->build();
         });
 
         $this['api.response_factory'] = $this->share(function() {
